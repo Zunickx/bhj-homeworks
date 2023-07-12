@@ -24,15 +24,26 @@ function changeCookieSize() {
 
 let link = document.getElementById('cookie');
 if(link) {
-    link.addEventListener('click', increaseCounter);
     link.addEventListener('click', changeCookieSize);
+    link.addEventListener('click', increaseCounter);
 }
 
-// let div = document.createElement('div');
-// div.id = 'ClickSpeed';
-// div.className = 'averageClickSpeed';
-// div.innerHTML = 'средняя скорость клика:';
-// let parentDiv = document.querySelector('clicker');
-// console.log(parentDiv);
-// parentDiv.appendChild(div);
+let div = document.createElement('div');
+div.id = 'clickSpeed';
+div.className = 'averageClickSpeed';
+div.innerHTML = 'Средняя скорость клика:';
+let parentDiv = document.querySelector('.clicker');
+parentDiv.insertBefore(div, link);
+
+let clickSpeedElement = document.getElementById('clickSpeed');
+let clickSpeedElementNumber = parseInt(clickSpeedElement.textContent);
+let startTime = 0;
+let endTime = 0;
+
+// Функция обновления скорости клика
+
+function updateClickSpeed() {
+    let speed = counter/((endTime - startTime)/1000); // средняя скорость клика
+    clickSpeedElement.textContent = speed.toFixed(3);
+}
 
