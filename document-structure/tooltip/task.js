@@ -1,24 +1,24 @@
-const hintElements = document.querySelectorAll('.has-tooltip');
-console.log(hintElements);
-hintElements.forEach((tooltip) => {
-  tooltip.addEventListener('click', (event) => {
-    event.preventDefault(); // отменили переход по ссылке
+const hintElements = document.querySelectorAll(".has-tooltip");
+hintElements.forEach((item) => {
+    item.addEventListener("click", (event) => {
+        event.preventDefault();
 
-    const tooltipText = tooltip.getAttribute('title'); // получаем текст подсказки из атрибута title
-    console.log(tooltipText);
-    const tooltipElement = document.createElement('div'); //создали HTML элемент для подсказки
-    tooltipElement.classList.add ('tooltip'); // добавляем класс tooltip элементу tooltipElement
-    tooltipElement.textContent = tooltipText; // добавили текст в элемент tooltipElement
+        const tooltipActive = document.querySelectorAll(".tooltip_active")[0]; // первый элемент на странице с классом "tooltip_active"
 
-    const tooltipPosition = tooltip.getBoundingClientRect(); // получаем позицию элемента, на который наведена мышь
-    const tooltipLeft = tooltipPosition.left + window.pageXOffset; // определяем левую позицию подсказки
-    const tooltipTop = tooltipPosition.top + window.pageYOffset - tooltipElement.offsetHeight - 5 // определяем верхнюю позицию подсказки
-    tooltipElement.style.top = ${tooltipTop}px; // устанавливаем верхнюю границу подсказки
-    tooltipElement.style.left = ${tooltipLeft}px; // устанавливаем левую границу подсказки
-    document.body.appendChild(tooltipElement); // добавляем элемент подсказки в body
+        if (tooltipActive) { // проверяет, есть ли такой элемент на странице
+            tooltipActive.classList.remove("tooltip_active"); // если элемент найден, то удаляет у него класс "tooltip_active"
+            if (tooltipActive.textContent == item.title) { // проверяет, равен ли текст внутри элемента тексту атрибута "title"
+                return false;
+            }
 
-    setTimeout(() => {
-      tooltipElement.remove();
-    }, 3000); // удаляем элемент подсказки через 3 секунды
-  })
+        }
+        const tooltip = document.createElement("div"); // создаем html-элемент для подсказки
+        tooltip.classList.add("tooltip", "tooltip_active"); // добавили созданному html-элементу класс tooltip, tooltip_active
+        tooltip.textContent = item.getAttribute("title"); // получаем текст подсказки из атрибута title
+
+        const coordinates = item.getBoundingClientRect(); // получаем координаты и размеры элемента на который был произведен клик
+        tooltip.style.top = coordinates.bottom + 3 + "px";
+        tooltip.style.left = coordinates.left + "px";
+        document.body.append(tooltip); // добавляем элемент в конец тега body
+    })
 })
