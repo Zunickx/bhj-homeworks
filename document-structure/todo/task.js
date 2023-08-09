@@ -1,9 +1,6 @@
 const taskAdd = document.querySelector('.tasks__add');
-console.log(taskAdd);
 const taskInput = document.getElementById('task__input');
-console.log(taskInput);
 const taskList = document.getElementById('tasks__list');
-console.log(taskList);
 
 taskAdd.addEventListener('click', (event) => {
     event.preventDefault();
@@ -11,7 +8,7 @@ taskAdd.addEventListener('click', (event) => {
         taskList.insertAdjacentHTML('beforeend', `
         <div class="task">
             <div class="task__title">
-                ${taskInput.value};
+                ${taskInput.value}
             </div>
             <a href="#" class="task__remove">&times;</a>
         </div>
