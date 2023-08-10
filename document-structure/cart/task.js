@@ -1,31 +1,43 @@
-const plusButtons = Array.from(document.querySelectorAll('.product__quantity-control_inc'));
-console.log(plusButtons);
-const minusButtons = Array.from(document.querySelectorAll('.product__quantity-control_dec'));
-let quantityGoods = Array.from(document.querySelectorAll('.product__quantity-value'));
+const productQuantityControlDec = Array.from(document.querySelectorAll('.product__quantity-control_dec'));
+const productQuantityControlInc = Array.from(document.querySelectorAll('.product__quantity-control_inc'));
+let productQuantityValue = Array.from(document.querySelectorAll('.product__quantity-value'));
 
-// реализуем кнопку + при клике
-plusButtons.forEach((item, index) => {
+productQuantityControlDec.forEach((item, idx) => {
     item.addEventListener('click', (event) => {
-        quantityGoods[index].textContent++; // добавляем кол-во товара
+        productQuantityValue[idx].textContent == 1 ? false : productQuantityValue[idx].textContent--;
+    })
+})
+productQuantityControlInc.forEach((item, idx) => {
+    item.addEventListener('click', (event) => {
+        productQuantityValue[idx].textContent++;
     })
 })
 
-// реализуем кнопку - при клике
-minusButtons.forEach((item, index) => {
-    item.addEventListener('click', (event) => {
-        quantityGoods[index].textContent == 1 ? false : quantityGoods[index].textContent--; // уменьшаем кол-во товара
-    })
-})
+const productAdd = Array.from(document.querySelectorAll('.product__add'));
+let cartProducts = document.querySelector('.cart__products');
+const product = document.querySelectorAll('.product');
+const productImage = document.querySelectorAll('.product__image');
 
-const productAdd = Array.from(querySelectorAll('.product__add')); // находим все кнопки "Добавить в корзину"
-console.log(productAdd);
-let cartProducts = document.querySelector('.cart__products'); // находим корзину с товарами, которые мы туда поместим
-const product = document.querySelectorAll('.products'); // находим все товары
-const productImage = document.querySelectorAll('.product__image'); //находим картинки товаров с классом product__image
-
-productAdd.forEach((item, index) => {
+productAdd.forEach((item, idx) => {
     item.addEventListener('click', (event) => {
-        const dataId = (product[index].getAttribute('data-id')); // находим атрибут data-id у каждого товара
-        const parents = productImage[index].closest('.product') // находим ближайшего родителя элемента на котором произошел клик, затем находим в этом элементе класс product__image, лежащий в переменной productImage, для того что бы получить изображение товара
+        const dataId = (product[idx].getAttribute('data-id'));
+        const parent = productImage[idx].closest('.product');
+        const parental = parent.querySelector('.product__image')
+        const imgNeed = parental.getAttribute('src');
+        const meaning = Number(productQuantityValue[idx].outerText);
+
+        const cartProduct = Array.from(document.querySelectorAll('.cart__product'));
+        const coincidence = cartProduct.find(el => el.dataset.id == event.target.closest('.product').dataset.id);
+        if (!coincidence) {
+            cartProducts.insertAdjacentHTML('beforeend', `
+        <div class="cart__product" data-id=${dataId}>
+          <img class="cart__product-image" src=${imgNeed}>
+          <div class="cart__product-count">${meaning}</div>
+        </div>
+        `);
+        } else {
+            const cartProductCount = coincidence.querySelector('.cart__product-count');
+            cartProductCount.innerText = +cartProductCount.outerText + meaning;
+        }
     })
 })
