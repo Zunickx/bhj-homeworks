@@ -1,5 +1,5 @@
 const xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://netology-slow-rest.herokuapp.com/poll.php');
+xhr.open('GET', 'https://students.netoservices.ru/nestjs-backend/poll');
 
 xhr.addEventListener('readystatechange', (event) => {
     if (xhr.readyState === xhr.DONE && xhr.status === 200) {
